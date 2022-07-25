@@ -12,6 +12,8 @@ function User() {
     const [error, setError] = useState(false)
     const [window, setWindow] = useState()
     const [modal, setModal] = useState(false)
+    const [action, setAction] = useState('')
+
     const toggle = () => setModal(!modal)
 
     const [value, setValue] = useState({
@@ -24,6 +26,12 @@ function User() {
         }
     })
     console.log(error)
+
+    const editData = () => {
+        setModal(true)
+        setAction('__edit')
+
+    }
 
     const j = 1;
     return (
@@ -51,7 +59,6 @@ function User() {
                             <center>  {error && value.username == '' ? 'wajib di isi' : ''}</center>
                             <br></br>
                             <label className='form-label'>Name</label>
-
                             <input type={'text'} className="form-control" name={'name'} value={value.name} onChange={(e) => {
                                 setValue({
                                     ...value,
@@ -62,22 +69,34 @@ function User() {
                             }} />
                             <br></br>
                             <center> {error && value.name == '' ? 'wajib di isi' : ''} </center>
-
                             <button className='btn btn-primary' onClick={() => {
-                                event.preventDefault();
-
+                                event.preventDefault();  
                                 const username = value.username
                                 const name = value.name;
-                                dispacth(createUser({
-                                    id: Math.random(),
-                                    username,
-                                    name
-                                },
-                                    () => {
-                                        setError(true)
-                                    }
-                                ))
-                                setModal(false);
+                                action == '__add'
+                                    ?
+
+                                    dispacth(createUser({
+                                        id: Math.random(),
+                                        username,
+                                        name
+                                    },
+                                        () => {
+                                            setError(true)
+                                        }
+                                    ))
+
+                                    :
+                                    dispacth(updateUser({
+                                        id: Math.random(),
+                                        username,
+                                        name
+                                    },
+                                        () => {
+                                            setError(true)
+                                        }
+                                    )) 
+                                setModal(false)
                             }}>Simpan</button>
                             <button className='btn btn-danger' onClick={() => {
                                 setValue({
@@ -105,6 +124,7 @@ function User() {
                 <hr />
                 <button className='btn btn-primary' onClick={() => {
                     setModal(true)
+                    setAction('__add')
                 }}>Tambah</button>
                 <br /><br />
                 <table className='table table-border table-striped'>
@@ -132,7 +152,11 @@ function User() {
                                                 {a.name}
                                             </td>
                                             <td>
-                                                <button className='btn btn-primary btn-sm'>Edit</button>
+                                                <button className='btn btn-primary btn-sm' onClick={(e) => {
+                                                    editData({
+                                                        id: a.id
+                                                    })
+                                                }}>Edit</button>
                                                 <button className='btn btn-danger btn-sm' onClick={(e) => {
                                                     dispacth(deleteUser({
                                                         id: a.id
