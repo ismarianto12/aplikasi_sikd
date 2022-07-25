@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import { connect, Provider } from "react-redux"
 import userReducer from '../actions/Users'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '../public/css/AdminLTE.min.css'
 
 function MyApp({ Component, pageProps }) {
   const store = configureStore({
