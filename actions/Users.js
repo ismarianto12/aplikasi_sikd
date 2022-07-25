@@ -10,13 +10,10 @@ export const userSlice = createSlice({
             const username = action.payload.username
             console.log(username + 'name:' + name)
         },
-        updateUser: (state, action) => {
-            state.value = state.value.filter((e) => e.id !== action.payload.id)
-            state.value = state.value.filter((e) => e.name !== action.payload.name)
-
-        },
         deleteUser: (state, action) => {
-            console.log('idnya' + action.payload.id)
+            state.value = state.value.filter((e) => e.id !== action.payload.id)
+        },
+        updateUser: (state, action) => {
             state.value.map((e) => {
                 if (e.id === action.payload.id) {
                     e.username = action.payload.username

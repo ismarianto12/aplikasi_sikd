@@ -17,6 +17,7 @@ function User() {
     const toggle = () => setModal(!modal)
 
     const [value, setValue] = useState({
+        id: '',
         username: '',
         name: ''
     })
@@ -27,19 +28,23 @@ function User() {
     })
     console.log(error)
 
-    const editData = () => {
+    const editData = ({ id, username, name }) => {
         setModal(true)
         setAction('__edit')
-
+        console.log('idyang di passing' + id)
+        setValue({
+            id: id,
+            username: username,
+            name: name
+        })
     }
 
     const j = 1;
     return (
         <>
 
-
             <Modal isOpen={modal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                <ModalHeader toggle={toggle}>{action == '__add' ? 'Tambah data' : 'Edit Data'}</ModalHeader>
                 <ModalBody>
                     <br />
                     <h3>
@@ -70,7 +75,7 @@ function User() {
                             <br></br>
                             <center> {error && value.name == '' ? 'wajib di isi' : ''} </center>
                             <button className='btn btn-primary' onClick={() => {
-                                event.preventDefault();  
+                                event.preventDefault();
                                 const username = value.username
                                 const name = value.name;
                                 action == '__add'
@@ -88,14 +93,14 @@ function User() {
 
                                     :
                                     dispacth(updateUser({
-                                        id: Math.random(),
+                                        id: value.id,
                                         username,
                                         name
                                     },
                                         () => {
                                             setError(true)
                                         }
-                                    )) 
+                                    ))
                                 setModal(false)
                             }}>Simpan</button>
                             <button className='btn btn-danger' onClick={() => {
@@ -154,7 +159,9 @@ function User() {
                                             <td>
                                                 <button className='btn btn-primary btn-sm' onClick={(e) => {
                                                     editData({
-                                                        id: a.id
+                                                        id: a.id,
+                                                        username: a.username,
+                                                        name: a.name 
                                                     })
                                                 }}>Edit</button>
                                                 <button className='btn btn-danger btn-sm' onClick={(e) => {
